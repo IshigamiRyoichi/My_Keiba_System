@@ -1,0 +1,131 @@
+<!doctype thml>
+<html lang="ja">
+    <head>
+        <!-- 文字をURF-8に設定 -->
+        <meta charset="utf-8">
+        <!-- どのデバイスで見ても見え方を一緒にする = レスポンシブデザイン -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- cssの読み込み -->
+        <link rel="stylesheet" href="static/css/style.css">
+    </head>
+
+    <body class="text-center">
+        <h1>{{text}}</h1>
+    
+        <form action="/result_page" method=post enctype="multipart/form-data">
+            <div class="box2">
+                <p1>出馬数</p1>
+                <input type="number" name="hourse_num" value="7"><br><br>
+
+                <p1>馬番&nbsp;タイム指数1 タイム指数2 上がり</p1><br>
+                <p2>1&nbsp;&nbsp;&nbsp;&nbsp;</p2>
+                <input type="text" id="h1_time_num1" name="h1_time_num1" size="10">
+                <input type="text" id="h1_time_num2" name="h1_time_num2" size="10">
+                <input type="text" id="h1_agari" name="h1_agari" size="10">
+                <!--input type=file id="h1_img_file" name="h1_img_file"--><br>
+
+                <p2>2&nbsp;&nbsp;&nbsp;&nbsp;</p2>
+                <input type="text" id="h2_time_num1" name="h2_time_num1" size="10">
+                <input type="text" id="h2_time_num2" name="h2_time_num2" size="10">
+                <input type="text" id="h2_agari" name="h2_agari" size="10">
+                <!--input type=file id="h2_img_file" name="h2_img_file"--><br>
+
+                <p2>3&nbsp;&nbsp;&nbsp;&nbsp;</p2>
+                <input type="text" id="h3_time_num1" name="h3_time_num1" size="10">
+                <input type="text" id="h3_time_num2" name="h3_time_num2" size="10">
+                <input type="text" id="h3_agari" name="h3_agari" size="10">
+                <!--input type=file id="h3_img_file" name="h3_img_file"--><br>
+
+                <p2>4&nbsp;&nbsp;&nbsp;&nbsp;</p2>
+                <input type="text" id="h4_time_num1" name="h4_time_num1" size="10">
+                <input type="text" id="h4_time_num2" name="h4_time_num2" size="10">
+                <input type="text" id="h4_agari" name="h4_agari" size="10">
+                <!--input type=file id="h4_img_file" name="h4_img_file"--><br>
+
+                <p2>5&nbsp;&nbsp;&nbsp;&nbsp;</p2>
+                <input type="text" id="h5_time_num1" name="h5_time_num1" size="10">
+                <input type="text" id="h5_time_num2" name="h5_time_num2" size="10">
+                <input type="text" id="h5_agari" name="h5_agari" size="10">
+                <!--input type=file id="h5_img_file" name="h5_img_file"--><br>
+
+                <p2>6&nbsp;&nbsp;&nbsp;&nbsp;</p2>
+                <input type="text" id="h6_time_num1" name="h6_time_num1" size="10">
+                <input type="text" id="h6_time_num2" name="h6_time_num2" size="10">
+                <input type="text" id="h6_agari" name="h6_agari" size="10">
+                <!--input type=file id="h6_img_file" name="h6_img_file"--><br>
+
+                <p2>7&nbsp;&nbsp;&nbsp;&nbsp;</p2>
+                <input type="text" id="h7_time_num1" name="h7_time_num1" size="10">
+                <input type="text" id="h7_time_num2" name="h7_time_num2" size="10">
+                <input type="text" id="h7_agari" name="h7_agari" size="10">
+                <!--input type=file id="h7_img_file" name="h7_img_file"--><br>
+
+                <p2>8&nbsp;&nbsp;&nbsp;&nbsp;</p2>
+                <input type="text" id="h8_time_num1" name="h8_time_num1" size="10">
+                <input type="text" id="h8_time_num2" name="h8_time_num2" size="10">
+                <input type="text" id="h8_agari" name="h8_agari" size="10">
+                <!--input type=file id="h8_img_file" name="h8_img_file"--><br>
+
+                <p2>9&nbsp;&nbsp;&nbsp;&nbsp;</p2>
+                <input type="text" id="h9_time_num1" name="h9_time_num1" size="10">
+                <input type="text" id="h9_time_num2" name="h9_time_num2" size="10">
+                <input type="text" id="h9_agari" name="h9_agari" size="10">
+                <!--input type=file id="h9_img_file" name="h9_img_file"--><br>
+
+                <p2>10&nbsp;&nbsp;</p2>
+                <input type="text" id="h10_time_num1" name="h10_time_num1" size="10">
+                <input type="text" id="h10_time_num2" name="h10_time_num2" size="10">
+                <input type="text" id="h10_agari" name="h10_agari" size="10">
+                <!--input type=file id="h10_img_file" name="h10_img_file"--><br>
+
+                <p2>11&nbsp;&nbsp;</p2>
+                <input type="text" id="h11_time_num1" name="h11_time_num1" size="10">
+                <input type="text" id="h11_time_num2" name="h11_time_num2" size="10">
+                <input type="text" id="h11_agari" name="h11_agari" size="10">
+                <!--input type=file id="h11_img_file" name="h11_img_file"--><br>
+
+                <p2>12&nbsp;&nbsp;</p2>
+                <input type="text" id="h12_time_num1" name="h12_time_num1" size="10">
+                <input type="text" id="h12_time_num2" name="h12_time_num2" size="10">
+                <input type="text" id="h12_agari" name="h12_agari" size="10">
+                <!--input type=file id="h12_img_file" name="h12_img_file"--><br>
+
+                <p2>13&nbsp;&nbsp;</p2>
+                <input type="text" id="h13_time_num1" name="h13_time_num1" size="10">
+                <input type="text" id="h13_time_num2" name="h13_time_num2" size="10">
+                <input type="text" id="h13_agari" name="h13_agari" size="10">
+                <!--input type=file id="h13_img_file" name="h13_img_file"--><br>
+
+                <p2>14&nbsp;&nbsp;</p2>
+                <input type="text" id="h14_time_num1" name="h14_time_num1" size="10">
+                <input type="text" id="h14_time_num2" name="h14_time_num2" size="10">
+                <input type="text" id="h14_agari" name="h14_agari" size="10">
+                <!--input type=file id="h14_img_file" name="h14_img_file"--><br>
+
+                <p2>15&nbsp;&nbsp;</p2>
+                <input type="text" id="h15_time_num1" name="h15_time_num1" size="10">
+                <input type="text" id="h15_time_num2" name="h15_time_num2" size="10">
+                <input type="text" id="h15_agari" name="h15_agari" size="10">
+                <!--input type=file id="h15_img_file" name="h15_img_file"--><br>
+
+                <p2>16&nbsp;&nbsp;</p2>
+                <input type="text" id="h16_time_num1" name="h16_time_num1" size="10">
+                <input type="text" id="h16_time_num2" name="h16_time_num2" size="10">
+                <input type="text" id="h16_agari" name="h16_agari" size="10">
+                <!--input type=file id="h16_img_file" name="h16_img_file"--><br>
+
+                <p2>17&nbsp;&nbsp;</p2>
+                <input type="text" id="h17_time_num1" name="h17_time_num1" size="10">
+                <input type="text" id="h17_time_num2" name="h17_time_num2" size="10">
+                <input type="text" id="h17_agari" name="h17_agari" size="10"><br>
+
+                <p2>18&nbsp;&nbsp;</p2>
+                <input type="text" id="h18_time_num1" name="h18_time_num1" size="10">
+                <input type="text" id="h18_time_num2" name="h18_time_num2" size="10">
+                <input type="text" id="h18_agari" name="h18_agari" size="10"><br>
+
+                <input type = submit value = Upload>
+            </div>
+        </form>
+    </body>
+</html>

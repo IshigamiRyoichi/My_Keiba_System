@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <!-- 文字をutf-8に設定 -->
+        <meta charset="utf-8">
+        <!-- どのデバイスで見ても見え方を一緒にする = レスポンシブデザイン -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>アップロードテスト</title>
+        <!-- cssの読み込み -->
+        <link rel="stylesheet" href="static/css/style.css">
+    </head>
+
+    <body class="text-center">
+        <h1>{{text}}</h1>
+        <div class="box1">
+            {% for hourse in hourse_list %}
+                <p>第{{loop.index}}着:{{ hourse }}馬番</p>
+          {% endfor %} 
+          <br>
+        </div>
+    </body>
+</html>

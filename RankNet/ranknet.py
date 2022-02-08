@@ -1,8 +1,8 @@
-from flask import request
+import glob
 from numpy import random
-import tensorflow as tf
-from tensorflow.keras import layers, Model, Input
+from tensorflow.keras import layers, Model
 from tensorflow.nn import leaky_relu
+import tensorflow as tf
 import numpy as np
 from itertools import combinations
 import random
@@ -31,65 +31,86 @@ class RankNet(Model):
         output = layers.Activation('sigmoid')(oij)
         return output
 
-    # def build_graph(self):
-    #     x = [Input(shape=(10)), Input(shape=(10))]
-    #     return Model(inputs=x, outputs=self.call(x))
-
-
-years = [2020,2019,2018,2017,2016,2015,2014,2013,2012,2011]
-df = pd.read_csv("./有馬記念Data.csv")
-df["タイム指数2-3"] = df["タイム指数2"] - df["タイム指数3"]
-
-index_num = 0
 xi = []
 xj = []
 pij = []
 pair_ids = []
 pair_query_id = []
+years = ['2021','2020','2019','2018','2017','2016','2015','2014','2013','2012','2011','2010','2009','2008','2007','2006','2005','2004','2003','2002']
+csv_list = glob.glob('../documents/csv/*.csv')
 
-for year in years:
-    one_year_Data = df[df['年数'] == year]
+for csv in csv_list:
+    df = pd.read_csv(csv)
+    index_num = 0
+    for year in years:
+        one_year_Data = df[df['日付'].str.contains(year)].index.tolist()
 
-    # print(one_year_Data.loc[0:0,"タイム指数"])
+        # print("a",one_year_Data)
+        # print(one_year_Data.loc[0:0,"タイム指数"])
 
-    index_list = [i for i in range(len(one_year_Data))]
-    random.shuffle(index_list)
-    for pair_id in combinations(index_list, 2):
-        pair_query_id.append(year)
-        pair_ids.append(pair_id)
-        i = pair_id[0]
-        j = pair_id[1]
-        xi.append([one_year_Data.at[i+index_num,"タイム指数2"],one_year_Data.at[i+index_num,"タイム指数2-3"],one_year_Data.at[i+index_num,"上り"]])
-        xj.append([one_year_Data.at[j+index_num,"タイム指数2"],one_year_Data.at[j+index_num,"タイム指数2-3"],one_year_Data.at[j+index_num,"上り"]])
+        # index_list = [i for i in range(len(one_year_Data))]
+        random.shuffle(one_year_Data)
+        for pair_id in combinations(one_year_Data, 2):
+            # pair_query_id.append(year)
+            pair_ids.append(pair_id)
+            i = pair_id[0]
+            j = pair_id[1]
+            # print("i:",df.at[i,"ﾀｲﾑ指数平均"],df.at[i,"賞金平均"],df.at[i,"着差平均"])
+            # print("j:",df.at[j,"ﾀｲﾑ指数平均"],df.at[j,"賞金平均"],df.at[j,"着差平均"])
+            xi.append([df.at[i,"ﾀｲﾑ指数平均"],df.at[i,"賞金平均"],df.at[i,"着差平均"]])
+            xj.append([df.at[j,"ﾀｲﾑ指数平均"],df.at[j,"賞金平均"],df.at[j,"着差平均"]])
 
-        if one_year_Data.at[i+index_num,"順位"]  == one_year_Data.at[j+index_num,"順位"] :
-            pij_com = 0.5
+            if df.at[i,"本番着順"]  == df.at[j,"本番着順"] :
+                pij_com = 0.5
 
-        elif one_year_Data.at[i+index_num,"順位"]  > one_year_Data.at[j+index_num,"順位"] :
-            pij_com = 0
+            elif df.at[i,"本番着順"]  > df.at[j,"本番着順"] :
+                pij_com = 0
 
-        else:
-            pij_com = 1
+            else:
+                pij_com = 1
 
-        pij.append(pij_com)
-    index_num += len(one_year_Data)
-    index_list.clear()
+            pij.append(pij_com)
+        # index_num += len(one_year_Data)
+        # index_list.clear()
 
-xi = np.array(xi)
-xj = np.array(xj)
-pij = np.array(pij)
-pair_query_id = np.array(pair_query_id)
+xi = np.array(xi,dtype = 'float')
+xj = np.array(xj,dtype = 'float')
+pij = np.array(pij,dtype = 'float')
 
-xi_train, xi_test, xj_train, xj_test, pij_train, pij_test, pair_id_train, pair_id_test = train_test_split(
-    xi, xj, pij, pair_ids, test_size=0.2, stratify=pair_query_id)
+# pair_query_id = np.array(pair_query_id)
+
+print(len(xi))
+
+xi_train, xi_test, xj_train, xj_test, pij_train, pij_test = train_test_split(xi, xj, pij, test_size=0.2)
+
+print(xi_train)
+print(xi_test)
+print(xj_train)
+print(xj_test)
+print(pij_train)
+print(pij_test)
+print(len(xi_train))
+print(len(xi_test))
+print(len(xj_train))
+print(len(xj_test))
+print(len(pij_train))
+print(len(pij_test))
+
+np.savetxt("./txt/xi_train.txt",xi_train)
+np.savetxt("./txt/xi_test.txt",xi_test)
+np.savetxt("./txt/xj_train.txt",xj_train)
+np.savetxt("./txt/xj_test.txt",xj_test)
+np.savetxt("./txt/pij_train.txt",pij_train)
+np.savetxt("./txt/pij_test.txt",pij_test)
 
 ranknet = RankNet()
 # ranknet.compile(optimizer='adam', loss='binary_crossentropy',metrics=['accuracy'])
-ranknet.compile(optimizer='sgd', loss='binary_crossentropy',metrics=['accuracy'])
-test_score = []
-history = ranknet.fit([xi_train, xj_train], pij_train, epochs=85, batch_size=4, validation_data=([xi_test, xj_test], pij_test))
+ranknet.compile(optimizer='sgd', loss=tf.keras.losses.LogCosh(), metrics=['accuracy'])
+# ranknet.compile(optimizer='sgd', loss='mean_squared_error', metrics=['accuracy'])
+# test_score = []
+history = ranknet.fit([xi_train, xj_train], pij_train, epochs=100, batch_size=32, validation_data=([xi_test, xj_test], pij_test))
 
-score = ranknet.evaluate([xi_test, xj_test], pij_test, batch_size=4, verbose=0)
+score = ranknet.evaluate([xi_test, xj_test], pij_test, batch_size=32, verbose=0)
 
 # test_score.append([ep,bs,score[0],score[1]])
 
@@ -108,7 +129,7 @@ plt.savefig("ranknet.png")
 # tf.keras.models.save_model(ranknet,'keiba_ranknet_model')
 ranknet.save("./keiba_ranknet_model")
 # ranknet.save_weights("./keiba_ranknet.hdf5", save_format="hdf5")
-ranknet.save_weights("./keiba_ranknet.hdf5")
+# ranknet.save_weights("./keiba_ranknet.hdf5")
 # joblib.dump(ranknet,'keiba_ranknet_model.pkl2', compress=2)
 
 
@@ -123,6 +144,9 @@ ranknet.save_weights("./keiba_ranknet.hdf5")
 # ranknet.save_weights(os.path.join(f_model,'ranknet_model_weights.hdf5'))
 
 y_predeict = ranknet.predict([xi_test, xj_test])
+
+print(y_predeict)
+np.savetxt('./txt/predeict.txt', y_predeict)
 
 tp = 0
 fp = 0
@@ -139,3 +163,4 @@ for t,p in zip(pij_test, y_predeict):
         tn += 1
 conf_mat = np.array([[tp,fp],[fn,tn]])
 print("混同行列\n",conf_mat)
+print('精度:',(tp+tn)/(tp+fp+tn+fn))
